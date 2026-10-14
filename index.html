@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>加班費與薪資計算機</title>
+    <style>
+        body {
+            font-family: 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 24px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .results {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+        .result-item {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .highlight {
+            font-size: 26px;
+            color: red;
+            font-weight: bold;
+            margin-top: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>加班費與薪資計算機</h1>
+    
+    <div class="form-group">
+        <label for="monthlySalary">月薪 (元)</label>
+        <input type="number" id="monthlySalary" value="46000" min="0">
+    </div>
+    
+    <div class="form-group">
+        <label for="overtimeHours">前 2 小時加班總時數</label>
+        <input type="number" id="overtimeHours" value="15" min="0" step="0.5">
+    </div>
+    
+    <div class="form-group">
+        <label for="post2OvertimeHours">後 2 小時加班總時數</label>
+        <input type="number" id="post2OvertimeHours" value="0" min="0" step="0.5">
+    </div>
+    
+    <button onclick="calculate()">開始計算</button>
+    
+    <div class="results" id="resultsBlock" style="display:none;">
+        <div class="result-item" id="displayHourlyWage"></div>
+        <div class="result-item" id="displayOvertimePay134"></div>
+        <div class="result-item" id="displayOvertimePay167"></div>
+        <div class="highlight" id="displayTotalOvertimePay"></div>
+        <div class="result-item" style="margin-top: 15px; font-weight: bold; font-size: 18px; text-align: center; color: #111;" id="displayTotalSalary"></div>
+    </div>
+</div>
+
+<script>
+function calculate() {
+    const monthlySalary = parseFloat(document.getElementById('monthlySalary').value) || 0;
+    const overtimeHours = parseFloat(document.getElementById('overtimeHours').value) || 0;
+    const post2OvertimeHours = parseFloat(document.getElementById('post2OvertimeHours').value) || 0;
+    
+    // 計算時薪
+    const hourlyWage = monthlySalary / 30 / 8;
+    
+    // 計算各段加班費並四捨五入
+    const overtimePay134 = Math.round(overtimeHours * hourlyWage * 1.34);
+    const overtimePay167 = Math.round(post2OvertimeHours * hourlyWage * 1.67);
+    const totalOvertimePay = overtimePay134 + overtimePay167;
+    const totalSalary = monthlySalary + totalOvertimePay;
+    
+    // 顯示結果與格式化輸出
+    document.getElementById('displayHourlyWage').innerText = `折合時薪：${hourlyWage.toFixed(2)} 元`;
+    document.getElementById('displayOvertimePay134').innerText = `前2小時加班費 (1.34倍，四捨五入)：${overtimePay134.toLocaleString()} 元`;
+    document.getElementById('displayOvertimePay167').innerText = `後2小時加班費 (1.67倍，四捨五入)：${overtimePay167.toLocaleString()} 元`;
+    document.getElementById('displayTotalOvertimePay').innerText = `總加班費：${totalOvertimePay.toLocaleString()} 元`;
+    document.getElementById('displayTotalSalary').innerText = `本月總薪資 (含加班費)：${totalSalary.toLocaleString()} 元`;
+    
+    document.getElementById('resultsBlock').style.display = 'block';
+}
+</script>
+
+</body>
+</html>
