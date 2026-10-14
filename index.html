@@ -85,16 +85,16 @@
 
     <div class="form-group">
         <label for="monthlySalary">月薪 (元)</label>
-        <input type="number" id="monthlySalary" class="calc-input" value="46000" min="0">
+        <input type="number" id="monthlySalary" class="calc-input" value="0" min="0">
     </div>
 
     <div class="form-group">
-        <label for="overtimeHours">前 2 小時加班總時數</label>
+        <label for="overtimeHours">前 2 小時 加班總時數</label>
         <input type="number" id="overtimeHours" class="calc-input" value="15" min="0" step="0.5">
     </div>
 
     <div class="form-group">
-        <label for="post2OvertimeHours">後 2 小時加班總時數</label>
+        <label for="post2OvertimeHours">超過2 小時 加班總時數</label>
         <input type="number" id="post2OvertimeHours" class="calc-input" value="0" min="0" step="0.5">
     </div>
 
@@ -143,8 +143,8 @@ function calculate() {
 
     // 顯示結果與格式化輸出
     document.getElementById('displayHourlyWage').innerText = `折合時薪：${hourlyWage.toFixed(2)} 元`;
-    document.getElementById('displayOvertimePay134').innerText = `前2小時加班費 (1.34倍，四捨五入)：${overtimePay134.toLocaleString()} 元`;
-    document.getElementById('displayOvertimePay167').innerText = `後2小時加班費 (1.67倍，四捨五入)：${overtimePay167.toLocaleString()} 元`;
+    document.getElementById('displayOvertimePay134').innerText = `前 2小時加班費 (1.34倍，四捨五入)：${overtimePay134.toLocaleString()} 元`;
+    document.getElementById('displayOvertimePay167').innerText = `超過 2小時加班費 (1.67倍，四捨五入)：${overtimePay167.toLocaleString()} 元`;
     document.getElementById('displayTotalOvertimePay').innerText = `總加班費：${totalOvertimePay.toLocaleString()} 元`;
     document.getElementById('displayTotalSalary').innerText = `本月總薪資 (含加班費)：${totalSalary.toLocaleString()} 元`;
 
