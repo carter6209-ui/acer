@@ -82,24 +82,24 @@
 
 <div class="container">
     <h1>加班費與薪資計算機</h1>
-    
+
     <div class="form-group">
         <label for="monthlySalary">月薪 (元)</label>
-        <input type="number" id="monthlySalary" value="0" min="0">
+        <input type="number" id="monthlySalary" class="calc-input" value="46000" min="0">
     </div>
-    
+
     <div class="form-group">
-        <label for="overtimeHours">前 2 小時 加班總時數</label>
-        <input type="number" id="overtimeHours" value="0" min="0" step="0.5">
+        <label for="overtimeHours">前 2 小時加班總時數</label>
+        <input type="number" id="overtimeHours" class="calc-input" value="15" min="0" step="0.5">
     </div>
-    
+
     <div class="form-group">
-        <label for="post2OvertimeHours">超過 2 小時後 加班總時數</label>
-        <input type="number" id="post2OvertimeHours" value="0" min="0" step="0.5">
+        <label for="post2OvertimeHours">後 2 小時加班總時數</label>
+        <input type="number" id="post2OvertimeHours" class="calc-input" value="0" min="0" step="0.5">
     </div>
-    
-    <button onclick="calculate()">開始計算</button>
-    
+
+    <button id="calcBtn" onclick="calculate()">開始計算</button>
+
     <div class="results" id="resultsBlock" style="display:none;">
         <div class="result-item" id="displayHourlyWage"></div>
         <div class="result-item" id="displayOvertimePay134"></div>
@@ -110,27 +110,44 @@
 </div>
 
 <script>
+// 取得所有輸入框，並綁定 Enter 鍵事件
+const inputs = document.querySelectorAll('.calc-input');
+inputs.forEach((input, index) => {
+    input.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // 防止表單預設送出
+            if (index < inputs.length - 1) {
+                // 如果不是最後一個輸入框，跳到下一個
+                inputs[index + 1].focus();
+            } else {
+                // 如果是最後一個輸入框，執行計算
+                calculate();
+            }
+        }
+    });
+});
+
 function calculate() {
     const monthlySalary = parseFloat(document.getElementById('monthlySalary').value) || 0;
     const overtimeHours = parseFloat(document.getElementById('overtimeHours').value) || 0;
     const post2OvertimeHours = parseFloat(document.getElementById('post2OvertimeHours').value) || 0;
-    
+
     // 計算時薪
     const hourlyWage = monthlySalary / 30 / 8;
-    
+
     // 計算各段加班費並四捨五入
     const overtimePay134 = Math.round(overtimeHours * hourlyWage * 1.34);
     const overtimePay167 = Math.round(post2OvertimeHours * hourlyWage * 1.67);
     const totalOvertimePay = overtimePay134 + overtimePay167;
     const totalSalary = monthlySalary + totalOvertimePay;
-    
+
     // 顯示結果與格式化輸出
     document.getElementById('displayHourlyWage').innerText = `折合時薪：${hourlyWage.toFixed(2)} 元`;
     document.getElementById('displayOvertimePay134').innerText = `前2小時加班費 (1.34倍，四捨五入)：${overtimePay134.toLocaleString()} 元`;
     document.getElementById('displayOvertimePay167').innerText = `後2小時加班費 (1.67倍，四捨五入)：${overtimePay167.toLocaleString()} 元`;
     document.getElementById('displayTotalOvertimePay').innerText = `總加班費：${totalOvertimePay.toLocaleString()} 元`;
     document.getElementById('displayTotalSalary').innerText = `本月總薪資 (含加班費)：${totalSalary.toLocaleString()} 元`;
-    
+
     document.getElementById('resultsBlock').style.display = 'block';
 }
 </script>
