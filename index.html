@@ -143,10 +143,10 @@ function calculate() {
 
     // 顯示結果與格式化輸出
     document.getElementById('displayHourlyWage').innerText = `折合時薪：${hourlyWage.toFixed(2)} 元`;
-    document.getElementById('displayOvertimePay134').innerText = `前  2小時加班費 (1.34倍，四捨五入)：${overtimePay134.toLocaleString()} 元`;
-    document.getElementById('displayOvertimePay167').innerText = `超過  2小時加班費 (1.67倍，四捨五入)：${overtimePay167.toLocaleString()} 元`;
+    document.getElementById('displayOvertimePay134').innerText = `前 2小時加班費(1.34倍，四捨五入)：${overtimePay134.toLocaleString()} 元`;
+    document.getElementById('displayOvertimePay167').innerText = `超過 2小時加班費(1.67倍，四捨五入)：${overtimePay167.toLocaleString()} 元`;
     document.getElementById('displayTotalOvertimePay').innerText = `總加班費：${totalOvertimePay.toLocaleString()} 元`;
-    document.getElementById('displayTotalSalary').innerText = `本月總薪資 (含加班費)：${totalSalary.toLocaleString()} 元`;
+    document.getElementById('displayTotalSalary').innerText = `本月總薪資(含加班費)：${totalSalary.toLocaleString()} 元`;
 
     document.getElementById('resultsBlock').style.display = 'block';
 }
